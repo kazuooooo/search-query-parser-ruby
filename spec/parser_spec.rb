@@ -53,6 +53,7 @@ describe SearchQueryParser do
 
   it 'invalid quote' do
     expect{SearchQueryParser.parse('"invalid quote "use case"')}.to raise_error(SearchQueryParser::QueryParseError)
+    expect{SearchQueryParser.parse('"quoted""invalid"')}.to raise_error(SearchQueryParser::QueryParseError)
   end
 
 end
