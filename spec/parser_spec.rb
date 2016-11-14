@@ -47,6 +47,10 @@ describe SearchQueryParser do
     expect(SearchQueryParser.parse('"text:query:with:quotes"').texts).to eq(['text:query:with:quotes'])
   end
 
+  it 'quote separates queries' do
+    expect(SearchQueryParser.parse('"text1""text2"').texts).to eq(['text1', 'text2'])
+  end
+
   it 'key:value query qith quotes' do
     expect(SearchQueryParser.parse('key:"this is value"').fields['key']).to eq(['this is value'])
   end
