@@ -1,5 +1,3 @@
-require "search_query_parser/version"
-
 module SearchQueryParser
 
   QUOTE = '"'.freeze
@@ -35,11 +33,15 @@ module SearchQueryParser
         key_buf, value_buf, mode = [], [], MODE_IN_KEY
       elsif c == QUOTE
         in_quote = !in_quote
+        unless in_quote
+          apply(dest, key_buf, value_buf)
+          key_buf, value_buf, mode = [], [], MODE_IN_KEY
+        end
       else
         (mode == MODE_IN_KEY ? key_buf : value_buf) << c
       end
     end
-    raise QueryParseError.new(query, "#{QUOTE} is not closed") if in_quote
+    raise QueryParseError.new(query, "qyoted phrase is not closed") if in_quote
     apply(dest, key_buf, value_buf)
 
     dest
